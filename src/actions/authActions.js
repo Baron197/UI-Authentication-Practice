@@ -12,30 +12,20 @@ export const onUserRegister = ({ username, email, phone, password }) => {
             dispatch({ type: AUTH_SYSTEM_ERROR, payload: 'Semua form diatas wajib diisi!' })
         }
         else {
-            axios.get('http://localhost:1997/users', { 
-                params: {
-                    username
-                }
+            axios.post('http://localhost:1997/auth/register', {
+                username, email, password, phone
             }).then((res) => {
-                if(res.data.length === 0) {
-                    axios.post('http://localhost:1997/users', {
-                        username, email, password, phone
-                    }).then((res) => {
-                        console.log(res)
-                        dispatch({ type : USER_LOGIN_SUCCESS, payload: res.data.username })
-                    }).catch((err) => {
-                        console.log(err);
-                        dispatch({ type: AUTH_SYSTEM_ERROR, payload: 'System Error' })
-                    })
+                console.log(res)
+                if(res.data.status === 'error') {
+                    dispatch({ type: AUTH_SYSTEM_ERROR, payload: res.data.message })
                 }
                 else {
-                    dispatch({ type: AUTH_SYSTEM_ERROR, payload: 'Username has been taken'})
+                    dispatch({ type : USER_LOGIN_SUCCESS, payload: res.data })
                 }
-                
             }).catch((err) => {
-                dispatch({ type: AUTH_SYSTEM_ERROR, payload: 'System Error'})
-            })
-            
+                console.log(err);
+                dispatch({ type: AUTH_SYSTEM_ERROR, payload: 'System Error' })
+            })        
         }
     }
 }

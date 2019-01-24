@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { onUserRegister } from '../actions';
 
 class Register extends Component {
+    onBtnRegisterClick = () => {
+        var username = this.refs.username.value;
+        var email = this.refs.email.value;
+        var phone = this.refs.phone.value;
+        var password = this.refs.password.value;
+
+        this.props.onUserRegister({ username, email, password, phone });
+    }
+
     renderError = () => {
         if(this.props.error.length > 0) {
             return <p className="alert alert-danger">{this.props.error}</p>;
@@ -13,7 +23,7 @@ class Register extends Component {
         if(this.props.loading) {
             return <i className="fa fa-spinner fa-spin" style={{ fontSize: '54px' }}/>
         }
-        return <input type="button" name="submit" id="submit" className="submit" defaultValue="Register" />
+        return <input type="button" name="submit" id="submit" className="submit" defaultValue="Register" onClick={this.onBtnRegisterClick} />
     }
 
     render() {
@@ -43,7 +53,7 @@ class Register extends Component {
             )
         }
         
-        return <Redirect to='/' />
+        return <Redirect to='/waitingverification' />
     }
 }
 
@@ -51,4 +61,4 @@ const mapStateToProps = (state) => {
     return { username: state.auth.username, loading: state.auth.loading, error: state.auth.error };
 }
 
-export default connect(mapStateToProps)(Register);
+export default connect(mapStateToProps, { onUserRegister })(Register);
