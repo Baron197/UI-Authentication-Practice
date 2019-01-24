@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import WaitingVerification from './components/WaitingVerification';
 import Verified from './components/Verified';
+import UserList from './components/UserList';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
             <Route path="/register" component={Register} />
             <Route path="/waitingverification" component={WaitingVerification} />
             <Route path="/verified" component={Verified} />
+            <Route path="/userlist" component={UserList} />
           </div>
       </div>
     );

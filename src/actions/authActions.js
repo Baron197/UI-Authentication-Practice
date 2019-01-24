@@ -29,3 +29,10 @@ export const onUserRegister = ({ username, email, phone, password }) => {
         }
     }
 }
+
+export const onUserVerified = (userData) => {
+    return {
+        type: USER_LOGIN_SUCCESS,
+        payload: userData
+    }
+}

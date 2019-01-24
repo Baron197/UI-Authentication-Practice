@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
+import { connect } from 'react-redux';
+import { onUserVerified } from '../actions';
 
 class Verified extends Component {
     state = { verified: false, loading: true }
@@ -15,7 +17,7 @@ class Verified extends Component {
             password
         }).then((res) => {
             const { token } = res.data;
-            localStorage.setItem("token", token || "");
+            localStorage.setItem("token", token);
             this.props.onUserVerified(res.data);
             console.log(res.data)
             this.setState({ loading: false, verified: true })
@@ -25,12 +27,12 @@ class Verified extends Component {
     }
 
     renderContent = () => {
-        if(this.state.verified && !this.loading) {
+        if(this.state.verified && !this.state.loading) {
             return (
-                <h1>Congrats you are verified!</h1>
+                <h1>Congrats you are verified! now its the time to find your ninja way!</h1>
             );
         }
-        else if(!this.state.verified && !this.loading) {
+        else if(!this.state.verified && !this.state.loading) {
             return (
                 <h1>Sorry Error happened, try to reload this page!</h1>
             );
@@ -49,4 +51,4 @@ class Verified extends Component {
     }
 }
 
-export default Verified;
+export default connect(null, { onUserVerified })(Verified);
